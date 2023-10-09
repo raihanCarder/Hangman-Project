@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Security.Policy;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Xml.Schema;
 
@@ -16,14 +17,14 @@ namespace Hangman_Project
         {   // Raihan Carder
 
             List<string> wordBank = File.ReadAllLines("words.txt").ToList();
-            //List<char> lettersInWord = new List<char>();
-
+            List<char> guessedLetters = new List<char>();
+            char[] alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray();
 
             Random generator = new Random();
-            string displayWord = "", guessedLetters = "", word;
+            string displayWord = "", word;
             char guess;
             int randomWord, failedGuesses = 0;
-            bool done = false, game = false;
+            bool done = false, game = false, validguess = false, gameWon = false;
 
             Console.Title = "Hangman Project";
             Console.WriteLine("Welcome to Hangman!");
@@ -39,53 +40,85 @@ namespace Hangman_Project
 
                 for (int i = 0; i < word.Length; i++)
                 {
-                    displayWord += "_ ";
+                    displayWord += "_";
                 }
 
-                Console.WriteLine(wordBank[randomWord]); // delete later
-                Console.WriteLine(wordBank.Count); // delete later
-                                                                
+                Console.WriteLine(word); // delete later
+                Console.WriteLine(displayWord.Count()); // Delete later
+                Console.WriteLine(wordBank.Count); // delete later                                                              
 
                 while (!game)    // Starts game
-                {
-                    
+                {                  
                     HangingMan(failedGuesses);
                     Console.WriteLine();
-
                     Console.WriteLine(displayWord);
-
                     Console.WriteLine();
                     Console.WriteLine();
-                    //Console.WriteLine($"Guessed letters: {guessedLetters}");
 
-                    if (failedGuesses < 8)
+                    Console.Write("Guess a letter: ");
+                    while (!validguess)
                     {
-                        Console.Write("Guess a letter: ");
-                       
-                        if (char.TryParse(Console.ReadLine().ToUpper().Trim(), out guess))
+                        if (char.TryParse(Console.ReadLine().Trim().ToUpper(), out guess))
                         {
-                            if (word.Contains(guess))
+                            if (alphabet.Contains(guess))
                             {
-                                displayWord = displayWord.Remove(1,2);
-                                
+                                validguess = true;
+
+                                if (word.Contains(guess))
+                                {
+                                    for (int i = 0; i < word.Count(); i++)
+                                    {                                     
+                                        if (word[i] == guess)
+                                        {
+                                            displayWord.Remove(i); displayWord.Insert(i, guess.ToString());            
+                                        }
+                                    }
+                                }
+                                else
+                                {
+                                    failedGuesses += 1;
+
+                                    if (!guessedLetters.Contains(guess))
+                                    {
+                                        guessedLetters.Add(guess);
+                                    }
+                                }
                             }
                             else
                             {
-                                failedGuesses += 1;
+                                Console.Write("Input invalid, Guess a letter: ");
                             }
+
                         }
-                        Console.Clear();
-                                                 
+                    }
+                    validguess = false;
+
+                    if (displayWord.Equals(word))
+                    {
+                        gameWon = true;
+                    }
+
+                    if (failedGuesses == 7 || gameWon)
+                    {
+                        game = true;
                     }
                     else
                     {
+                        Console.Clear();
 
+                        Console.Write("You have guessed: ");
+                        for (int i = 0; i < guessedLetters.Count(); i++)
+                        {
+                            Console.Write(guessedLetters[i] + "");
+                        }
+                        Console.WriteLine();
                     }
+                                      
                     
-
-
-                    Console.ReadLine() ;
                 }
+                Console.Clear();
+                Console.WriteLine("GAME OVER");
+                Console.ReadLine();
             }
         }
         public static void HangingMan(int guesses)
