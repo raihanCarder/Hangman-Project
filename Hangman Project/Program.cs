@@ -40,7 +40,7 @@ namespace Hangman_Project
 
                 for (int i = 0; i < word.Length; i++)
                 {
-                    displayWord += "_";
+                    displayWord += "_";                  
                 }
 
                 Console.WriteLine(word); // delete later
@@ -51,7 +51,14 @@ namespace Hangman_Project
                 {                  
                     HangingMan(failedGuesses);
                     Console.WriteLine();
-                    Console.WriteLine(displayWord);
+                    Console.WriteLine();
+
+                    for (int i = 0; i < word.Count(); i++) // Spaces out Letters 
+                    {
+                        Console.Write(displayWord[i]);
+                        Console.Write(" ");
+                    }
+
                     Console.WriteLine();
                     Console.WriteLine();
 
@@ -70,7 +77,8 @@ namespace Hangman_Project
                                     {                                     
                                         if (word[i] == guess)
                                         {
-                                            displayWord.Remove(i); displayWord.Insert(i, guess.ToString());            
+                                            displayWord.Remove(i);
+                                            displayWord.Insert(i, guess.ToString());
                                         }
                                     }
                                 }
@@ -116,6 +124,7 @@ namespace Hangman_Project
                                       
                     
                 }
+
                 Console.Clear();
                 Console.WriteLine("GAME OVER");
                 Console.ReadLine();
