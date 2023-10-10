@@ -46,9 +46,9 @@ namespace Hangman_Project
                     displayWord += "_";                  
                 }
 
-                Console.WriteLine(word); // delete later
-                Console.WriteLine(displayWord.Count()); // Delete later
-                Console.WriteLine(wordBank.Count); // delete later                                                              
+                //Console.WriteLine(word); // delete later
+                //Console.WriteLine(displayWord.Count()); // Delete later
+                //Console.WriteLine(wordBank.Count); // delete later                                                              
 
                 while (!game)    // Starts game
                 {                  
