@@ -21,10 +21,10 @@ namespace Hangman_Project
             char[] alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray();
 
             Random generator = new Random();
-            string displayWord = "", word;
+            string displayWord = "", word, playagain;
             char guess;
-            int randomWord, failedGuesses = 0;
-            bool done = false, game = false, validguess = false, gameWon = false;
+            int randomWord, failedGuesses;
+            bool done = false, game = false, validguess = false, gameWon = false, validAnswer = false;
 
             Console.Title = "Hangman Project";
             Console.WriteLine("Welcome to Hangman!");
@@ -35,6 +35,9 @@ namespace Hangman_Project
 
             while (!done)
             {
+                failedGuesses = 0;
+                displayWord = "";
+
                 randomWord = generator.Next(0, 854); // Creates new word that user must guess
                 word = wordBank[randomWord].ToUpper();
 
@@ -127,8 +130,44 @@ namespace Hangman_Project
 
                 Console.Clear();
                 Console.WriteLine("GAME OVER");
-                Console.ReadLine();
+                if (gameWon == true)
+                {
+                    Console.WriteLine("Congratulations you have guessed the word!");
+                }
+                else
+                {
+                    Console.WriteLine("You've lost");
+                }
+
+                Console.Write("Wanna play again? (Yes/No) : ");
+
+                while (!validAnswer)
+                {
+                    playagain = Console.ReadLine().ToUpper().Trim();
+
+                    if (playagain == "YES")
+                    {
+                        game = false;
+                        gameWon = false;
+                        validAnswer = true;
+                        Console.Clear();
+                    }
+                    else if (playagain == "NO")
+                    {
+                        done = true;
+                        validAnswer = true;
+                    }
+                    else
+                    {
+                        Console.Write("Invalid Answer, Wanna play again? ");
+                    }
+                }
+                validAnswer = false;
             }
+
+
+            Console.WriteLine("Thank You for playing!");
+            Console.ReadLine();
         }
         public static void HangingMan(int guesses)
         {
