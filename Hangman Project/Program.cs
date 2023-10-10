@@ -77,8 +77,8 @@ namespace Hangman_Project
                                     {                                     
                                         if (word[i] == guess)
                                         {
-                                            displayWord.Remove(i);
-                                            displayWord.Insert(i, guess.ToString());
+                                            displayWord = displayWord.Remove(i, 1);
+                                            displayWord = displayWord.Insert(i, guess.ToString());
                                         }
                                     }
                                 }
