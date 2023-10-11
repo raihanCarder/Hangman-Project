@@ -656,7 +656,7 @@ simple
 sister
 size
 skin
-
+Glaze
 skirt
 sky
 sleep
@@ -679,7 +679,7 @@ sock
 soft
 solid
 some
-
+Rizz
 son
 song
 sort
