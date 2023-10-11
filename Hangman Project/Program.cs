@@ -16,8 +16,7 @@ namespace Hangman_Project
         static void Main(string[] args)
         {   // Raihan Carder
 
-            List<string> wordBank = File.ReadAllLines("words.txt").ToList();
-            List<string> seenWords = new List<string>();
+            List<string> wordBank = File.ReadAllLines("words.txt").ToList();           
             List<char> guessedLetters = new List<char>();
             List<char> correctLetters = new List<char>();
             char[] alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray();
@@ -37,9 +36,11 @@ namespace Hangman_Project
             Console.WriteLine();
             Console.WriteLine("Click Enter To Play!");
             Console.ReadLine();
+
             Console.BackgroundColor = ConsoleColor.White;
             Console.ForegroundColor = ConsoleColor.Black;
             Console.Clear();
+
             Console.WriteLine("How to play Hangman:");
             Console.WriteLine();
             Console.WriteLine("Guess a letter!");
@@ -47,9 +48,7 @@ namespace Hangman_Project
             Console.WriteLine("Your goal is to guess the word in under 7 tries.");
             Console.Write("Understand? Click Enter to Play!");
             Console.ReadLine();
-            Console.BackgroundColor = ConsoleColor.Green;
-            Console.ForegroundColor = ConsoleColor.Black;
-            Console.Clear();
+
             while (!done)
             {
                 failedGuesses = 0;
@@ -132,14 +131,17 @@ namespace Hangman_Project
                     if (displayWord.Equals(word))
                     {
                         gameWon = true;
-                        wins++;
-                        seenWords.Add(word);
                     }
 
-                    if (failedGuesses == 8 || gameWon)
+                    if (failedGuesses == 8)
                     {
                         game = true;
                         losses++;
+                    }
+                    else if (gameWon == true)
+                    {
+                        game = true;
+                        wins++;
                     }
                     else
                     {
