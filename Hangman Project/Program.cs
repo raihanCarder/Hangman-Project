@@ -59,6 +59,7 @@ namespace Hangman_Project
                 Console.ForegroundColor = ConsoleColor.White;
                 customWord = Console.ReadLine().ToUpper().Trim();
                 customMatch = true;
+
                 Console.ForegroundColor = ConsoleColor.Black;
 
                 for (int i = 0; i < customWord.Length; i++)
