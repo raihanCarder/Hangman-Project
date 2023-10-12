@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Data;
 using System.Diagnostics.Tracing;
 using System.IO;
 using System.Linq;
@@ -7,6 +8,7 @@ using System.Security.Policy;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using System.Xml.Linq;
 using System.Xml.Schema;
 
 namespace Hangman_Project
@@ -22,10 +24,10 @@ namespace Hangman_Project
             char[] alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray();
 
             Random generator = new Random();
-            string displayWord = "", word, playagain;
+            string displayWord = "", word, playagain, customGame, customWord = "";
             char guess;
             int randomWord, failedGuesses, wins = 0, losses = 0;
-            bool done = false, game = false, validguess = false, gameWon = false, validAnswer = false;
+            bool done = false, game = false, validguess = false, gameWon = false, validAnswer = false, customMatch = false;
 
             Console.Title = "Hangman Project";
 
@@ -46,8 +48,40 @@ namespace Hangman_Project
             Console.WriteLine("Guess a letter!");
             Console.WriteLine("You get 7 tries to guess the word, run out of tries and you lose.");
             Console.WriteLine("Your goal is to guess the word in under 7 tries.");
-            Console.Write("Understand? Click Enter to Play!");
-            Console.ReadLine();
+            Console.WriteLine("To play couch co-op and choose the word, type 'C'");
+            Console.Write("Understand? To play normally Click Enter!");
+
+            customGame = Console.ReadLine().ToUpper().Trim();
+
+            if (customGame == "C")
+            {
+                Console.Write("Enter a custom word (It'll be hidden): ");
+                Console.ForegroundColor = ConsoleColor.White;
+                customWord = Console.ReadLine().ToUpper().Trim();
+                customMatch = true;
+                Console.ForegroundColor = ConsoleColor.Black;
+
+                for (int i = 0; i < customWord.Length; i++)
+                {
+                    if (!alphabet.Contains(customWord[i]))
+                    {
+                        customMatch = false;
+                    }                  
+                }
+
+                if (string.IsNullOrEmpty(customWord))
+                {
+                    customMatch = false;
+                }
+
+                if (customMatch == false)
+                {
+                    Console.Write("Invalid Custom Word, Click enter to play normally! ");
+                    Console.ReadLine();
+                }
+            }         
+                   
+           
 
             while (!done)
             {
@@ -58,6 +92,12 @@ namespace Hangman_Project
 
                 randomWord = generator.Next(0, 854); // Creates new word that user must guess
                 word = wordBank[randomWord].ToUpper();
+
+                if (customMatch == true)
+                {
+                    word = customWord;
+                }
+                customMatch = false;
 
                 Console.BackgroundColor = ConsoleColor.Green;
                 Console.ForegroundColor = ConsoleColor.Black;
@@ -201,7 +241,7 @@ namespace Hangman_Project
             }
 
 
-            Console.WriteLine("Thank You for playing!");
+            Console.WriteLine("Thank You for playing! (Song playing, to Quit Click the X!)");
             LeavingSong();
             Console.ReadLine();
         }
