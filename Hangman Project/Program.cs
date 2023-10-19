@@ -178,6 +178,7 @@ namespace Hangman_Project
                     {
                         game = true;
                         losses++;
+                        Console.Beep();
                     }
                     else if (gameWon == true)
                     {
