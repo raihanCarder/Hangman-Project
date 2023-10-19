@@ -91,7 +91,7 @@ namespace Hangman_Project
                 guessedLetters.Clear();
                 correctLetters.Clear();
 
-                randomWord = generator.Next(0, 854); // Creates new word that user must guess
+                randomWord = generator.Next(1, 855); // Creates new word that user must guess
                 word = wordBank[randomWord].ToUpper();
 
                 if (customMatch == true)
