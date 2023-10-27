@@ -18,7 +18,18 @@ namespace Hangman_Project
         static void Main(string[] args)
         {   // Raihan Carder
 
-            List<string> wordBank = File.ReadAllLines("words.txt").ToList();           
+            List<string> wordBank = new List<string>();
+
+            if (File.Exists("words.txt"))
+            {
+                wordBank = File.ReadAllLines("words.txt").ToList();
+            }
+            else
+            {
+                Console.WriteLine("Error, Make sure to download file 'words.txt' or else code will crash.");
+                Console.ReadLine();
+            }
+            
             List<char> guessedLetters = new List<char>();
             List<char> correctLetters = new List<char>();
             char[] alphabet = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".ToCharArray();
@@ -27,10 +38,10 @@ namespace Hangman_Project
             string displayWord = "", word, playagain, customGame, customWord = "";
             char guess;
             int randomWord, failedGuesses, wins = 0, losses = 0;
-            bool done = false, game = false, validguess = false, gameWon = false, validAnswer = false, customMatch = false;
+            bool done = false, game = false, validguess = false, gameWon = false, validAnswer = false, customMatch = false, validWord = false, wordInvalid = false;
 
             Console.Title = "Hangman Project";
-
+            
             Console.BackgroundColor = ConsoleColor.Black;
             Console.ForegroundColor = ConsoleColor.White;
             Console.Clear();
@@ -48,7 +59,8 @@ namespace Hangman_Project
             Console.WriteLine("Guess a letter!");
             Console.WriteLine("You get 7 tries to guess the word, run out of tries and you lose.");
             Console.WriteLine("Your goal is to guess the word in under 7 tries.");
-            Console.WriteLine("To play couch co-op and choose the word, type 'C'");
+            Console.WriteLine("To play couch co-op and choose the word, type 'C' than 'Enter'!");
+            Console.WriteLine("If you ever want to add words to the wordbank, edit the textfile, The Game will Still work!");
             Console.Write("Understand? To play normally Click Enter!");
 
             customGame = Console.ReadLine().ToUpper().Trim();
@@ -80,10 +92,7 @@ namespace Hangman_Project
                     Console.Write("Invalid Custom Word, Click enter to play normally! ");
                     Console.ReadLine();
                 }
-            }         
-                   
-           
-
+            }        
             while (!done)
             {
                 failedGuesses = 0;
@@ -91,8 +100,34 @@ namespace Hangman_Project
                 guessedLetters.Clear();
                 correctLetters.Clear();
 
-                randomWord = generator.Next(1, 855); // Creates new word that user must guess
+                randomWord = generator.Next(1, wordBank.Count() + 1); // Creates new word that user must guess
                 word = wordBank[randomWord].ToUpper();
+
+                while (!validWord) // Makes sure if user types in a word in textfile and it's invalid, it will find new word.
+                {
+                    for (int i = 0; i < word.Count(); i++)
+                    {
+                        if (!alphabet.Contains(word[i]))
+                        {
+                            wordInvalid = true; break;
+                        }
+                    }
+
+                    if (wordInvalid)
+                    {
+                        randomWord = generator.Next(1, wordBank.Count() + 1); // Creates new word that user must guess
+                        word = wordBank[randomWord].ToUpper();
+                        wordInvalid = false;
+                    }
+                    else
+                    {
+                        validWord = true;
+                    }
+                 
+                }
+
+                validWord = false;
+                wordInvalid = false;
 
                 if (customMatch == true)
                 {
