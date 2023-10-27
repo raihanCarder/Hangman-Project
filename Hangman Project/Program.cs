@@ -100,7 +100,7 @@ namespace Hangman_Project
                 guessedLetters.Clear();
                 correctLetters.Clear();
 
-                randomWord = generator.Next(1, wordBank.Count() + 1); // Creates new word that user must guess
+                randomWord = generator.Next(0, wordBank.Count() + 1); // Creates new word that user must guess
                 word = wordBank[randomWord].ToUpper();
 
                 while (!validWord) // Makes sure if user types in a word in textfile and it's invalid, it will find new word.
@@ -115,7 +115,7 @@ namespace Hangman_Project
 
                     if (wordInvalid)
                     {
-                        randomWord = generator.Next(1, wordBank.Count() + 1); // Creates new word that user must guess
+                        randomWord = generator.Next(0, wordBank.Count() + 1); // Creates new word that user must guess
                         word = wordBank[randomWord].ToUpper();
                         wordInvalid = false;
                     }
